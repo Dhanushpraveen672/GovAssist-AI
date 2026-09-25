@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Beneficiary Login - National Scheme Portal | Government of India</title>
+  <meta name="description" content="Official Government Welfare Scheme Portal - Beneficiary Login. Access Union and State welfare schemes, DBT subsidies, and track applications.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230b3d91%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22none%22 stroke=%22%23ff9933%22 stroke-width=%224%22/><text x=%2250%22 y=%2258%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22 font-family=%22sans-serif%22>NSP</text></svg>">
+  
+  <style>
+    /* Official Government Design System */
+    :root {
+      --gov-navy: #0b3d91;
+      --gov-navy-dark: #062a63;
+      --gov-navy-deep: #041c44;
+      --gov-saffron: #ff9933;
+      --gov-green: #138808;
+      --gov-bg: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --error-color: #dc2626;
+      --success-bg: #ecfdf5;
+      --success-border: #138808;
+      --success-text: #065f46;
+      --font-family: 'Segoe UI', Arial, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-soft: 0 10px 25px -5px rgba(11, 61, 145, 0.08), 0 8px 10px -6px rgba(11, 61, 145, 0.04);
+      --shadow-card: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark Mode via prefers-color-scheme */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --gov-bg: #0c192c;
+        --card-bg: #132238;
+        --text-main: #f1f5f9;
+        --text-muted: #94a3b8;
+        --border-color: #243854;
+        --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        --shadow-card: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--gov-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      padding-left: env(safe-area-inset-left, 0px);
+      padding-right: env(safe-area-inset-right, 0px);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    /* 1. Indian Tricolor Strip */
+    .tricolor-strip {
+      display: flex;
+      height: 5px;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .tricolor-saffron { flex: 1; background-color: var(--gov-saffron); }
+    .tricolor-white { flex: 1; background-color: #ffffff; }
+    .tricolor-green { flex: 1; background-color: var(--gov-green); }
+
+    /* Top Utility Accessibility Bar */
+    .top-util-bar {
+      background-color: var(--gov-navy-deep);
+      color: #e2e8f0;
+      font-size: 11px;
+      padding: 6px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .top-util-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .gov-india-badge {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .helpline-badge {
+      color: #86efac;
+      font-weight: 700;
+    }
+
+    /* 2. Official Government Header */
+    .gov-header {
+      background: linear-gradient(135deg, var(--gov-navy) 0%, #08337a 50%, var(--gov-navy-dark) 100%);
+      color: #ffffff;
+      border-bottom: 4px solid var(--gov-saffron);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 16px 20px;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .emblem-wrapper {
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle, #ffffff 40%, #f7dfa5 100%);
+      border: 2px solid #d4af37;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .portal-titles h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .portal-badge {
+      background-color: var(--gov-green);
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .portal-tagline {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 8px;
+      background: rgba(4, 28, 68, 0.6);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .nav-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 7px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-btn-active {
+      background-color: var(--gov-saffron);
+      color: #041c44;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .nav-btn-outline {
+      color: #ffffff;
+      background: transparent;
+    }
+    .nav-btn-outline:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Notice ticker bar */
+    .notice-bar {
+      background: rgba(11, 61, 145, 0.05);
+      border-bottom: 1px solid var(--border-color);
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+    .notice-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notice-tag {
+      background-color: var(--gov-saffron);
+      color: #041c44;
+      font-weight: 800;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Main Container */
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 16px;
+    }
+
+    /* 3. Centered White Card */
+    .card-container {
+      width: 100%;
+      max-width: 440px;
+      background-color: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--gov-navy) 0%, var(--gov-navy-dark) 100%);
+      color: #ffffff;
+      padding: 22px 24px;
+      border-bottom: 4px solid var(--gov-saffron);
+    }
+    .card-category {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+      color: var(--gov-saffron);
+      margin-bottom: 4px;
+      display: block;
+    }
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .card-subtitle {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .card-body {
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Banners & Alerts */
+    .banner {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .success-banner {
+      background-color: var(--success-bg);
+      border: 2px solid var(--success-border);
+      color: var(--success-text);
+    }
+    .success-banner svg {
+      color: var(--gov-green);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Form Styles */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+    }
+    .required-star {
+      color: var(--error-color);
+    }
+    .forgot-link {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gov-navy);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    @media (prefers-color-scheme: dark) {
+      .forgot-link {
+        color: #60a5fa;
+      }
+    }
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .toggle-pwd-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+    .toggle-pwd-btn:hover {
+      color: var(--text-main);
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background-color: rgba(255, 255, 255, 0.7);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      input[type="text"],
+      input[type="password"] {
+        background-color: #0f1d30;
+      }
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--gov-navy);
+      box-shadow: 0 0 0 3px rgba(11, 61, 145, 0.18);
+      background-color: var(--card-bg);
+    }
+    input.error-input {
+      border-color: var(--error-color) !important;
+      background-color: rgba(220, 38, 38, 0.03);
+    }
+    input.error-input:focus {
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: var(--error-color);
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .error-msg.visible {
+      display: flex;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gov-navy) 0%, var(--gov-navy-dark) 100%);
+      color: #ffffff;
+      border: none;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px -1px rgba(11, 61, 145, 0.3);
+      margin-top: 6px;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #08337a 0%, #041c44 100%);
+      box-shadow: 0 6px 12px -2px rgba(11, 61, 145, 0.4);
+      transform: translateY(-1px);
+    }
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Card Footer Area */
+    .card-footer-box {
+      border-top: 1px solid var(--border-color);
+      padding-top: 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-prompt {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .register-btn-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--gov-green);
+      background-color: rgba(19, 136, 8, 0.08);
+      color: var(--gov-green);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .register-btn-link:hover {
+      background-color: var(--gov-green);
+      color: #ffffff;
+    }
+    .helpline-link {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .helpline-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 4. Official Footer */
+    .gov-footer {
+      background-color: var(--gov-navy-dark);
+      color: #cbd5e1;
+      border-top: 4px solid var(--gov-saffron);
+      margin-top: auto;
+      font-size: 12px;
+    }
+    .footer-top {
+      background-color: var(--gov-navy-deep);
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .footer-top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-main-links {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      list-style: none;
+    }
+    .footer-links-list a {
+      color: #cbd5e1;
+      text-decoration: none;
+    }
+    .footer-links-list a:hover {
+      color: var(--gov-saffron);
+    }
+    .copyright-bar {
+      background-color: #031535;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Modal for Forgot Password */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      max-width: 400px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Indian Tricolor Strip at Very Top -->
+  <div class="tricolor-strip" aria-hidden="true">
+    <div class="tricolor-saffron" title="Saffron"></div>
+    <div class="tricolor-white" title="White"></div>
+    <div class="tricolor-green" title="Green"></div>
+  </div>
+
+  <!-- Top Utility Bar -->
+  <div class="top-util-bar">
+    <div class="top-util-inner">
+      <div class="gov-india-badge">
+        <span>GOVERNMENT OF INDIA • भारत सरकार</span>
+        <span style="opacity:0.4;">|</span>
+        <span style="font-weight:400; opacity:0.9;">Ministry of Electronics & IT</span>
+      </div>
+      <div class="helpline-badge">
+        <span>Toll Free Citizen Helpline: 1800-11-0001 (24x7)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Official Government Header -->
+  <header class="gov-header" role="banner">
+    <div class="header-inner">
+      <div class="brand-section">
+        <!-- Circular Ashoka Chakra Government Seal Placeholder -->
+        <div class="emblem-wrapper" aria-label="National Emblem of India">
+          <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" stroke="#0b3d91" stroke-width="2.5" />
+            <circle cx="50" cy="50" r="16" stroke="#0b3d91" stroke-width="2" />
+            <circle cx="50" cy="50" r="3" fill="#0b3d91" />
+            <line x1="50" y1="34" x2="50" y2="66" stroke="#0b3d91" stroke-width="1.5" />
+            <line x1="34" y1="50" x2="66" y2="50" stroke="#0b3d91" stroke-width="1.5" />
+            <line x1="38.7" y1="38.7" x2="61.3" y2="61.3" stroke="#0b3d91" stroke-width="1.5" />
+            <line x1="38.7" y1="61.3" x2="61.3" y2="38.7" stroke="#0b3d91" stroke-width="1.5" />
+            <path d="M30 76 L70 76 L66 82 L34 82 Z" fill="#0b3d91" />
+          </svg>
+        </div>
+
+        <div class="portal-titles">
+          <h1>
+            <span>National Scheme Portal</span>
+            <span class="portal-badge">Official</span>
+          </h1>
+          <div class="portal-tagline">Government Welfare Schemes — Beneficiary Login</div>
+        </div>
+      </div>
+
+      <nav class="nav-buttons" aria-label="Portal Navigation">
+        <a href="login.html" class="nav-btn nav-btn-active">Beneficiary Login</a>
+        <a href="register.html" class="nav-btn nav-btn-outline">New Registration</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Official Notice Bar -->
+  <div class="notice-bar">
+    <div class="notice-inner">
+      <span class="notice-tag">Notice</span>
+      <span>Direct Benefit Transfer (DBT) verification is active. Keep your registered Aadhaar details handy.</span>
+    </div>
+  </div>
+
+  <!-- 3. Main Center Content: Beneficiary Login Card -->
+  <main class="main-content" role="main">
+    <div class="card-container">
+      
+      <!-- Card Header in Navy -->
+      <div class="card-header">
+        <span class="card-category">Official Beneficiary Gateway</span>
+        <h2 class="card-title">Beneficiary Login</h2>
+        <p class="card-subtitle">Sign in to access your scheme applications</p>
+      </div>
+
+      <div class="card-body">
+        
+        <!-- Success Banner (Hidden by default, shown on valid submit) -->
+        <div id="successBanner" class="banner success-banner" style="display: none;" role="alert">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <div>
+            <div style="font-weight: 800; margin-bottom: 2px;">Login Successful!</div>
+            <div id="successMessageText">Welcome to the National Scheme Portal. Client-side authentication passed.</div>
+          </div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" novalidate>
+          
+          <!-- Field 1: Username / Registered ID -->
+          <div class="form-group">
+            <label for="username">
+              Username / Registered ID <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                placeholder="Enter Registered ID or Username"
+                autocomplete="username"
+                required
+                aria-required="true"
+              >
+            </div>
+            <div id="usernameError" class="error-msg" role="alert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Username / Registered ID is required</span>
+            </div>
+          </div>
+
+          <!-- Field 2: Password (Masked with Eye Toggle) -->
+          <div class="form-group" style="margin-top: 14px;">
+            <div class="label-row">
+              <label for="password">
+                Password <span class="required-star" aria-hidden="true">*</span>
+              </label>
+              <a href="#" id="forgotPasswordTrigger" class="forgot-link">Forgot Password?</a>
+            </div>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+                aria-required="true"
+                style="padding-right: 40px;"
+              >
+              <button 
+                type="button" 
+                id="togglePassword" 
+                class="toggle-pwd-btn" 
+                title="Toggle password visibility"
+                aria-label="Toggle password visibility"
+              >
+                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+            <div id="passwordError" class="error-msg" role="alert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Password is required</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="loginBtn" class="submit-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            <span>Login</span>
+          </button>
+        </form>
+
+        <!-- Footer Links: "Forgot Password?" and "New Registration" -->
+        <div class="card-footer-box">
+          <div class="footer-prompt">Don't have a registered beneficiary account?</div>
+          <a href="register.html" class="register-btn-link">
+            <span>New Registration</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#help" onclick="alert('For login assistance, call Toll-Free Helpline: 1800-11-0001'); return false;" class="helpline-link">
+            Need Help? Contact National Citizen Helpdesk
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgotModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h3 style="font-size: 18px; font-weight: 800; color: var(--gov-navy);">Password Recovery</h3>
+      <p style="font-size: 13px; color: var(--text-muted);">
+        Enter your Registered ID, Aadhaar Number, or Mobile to receive password reset instructions.
+      </p>
+      <div id="modalAlert" style="display:none; font-size:12px; padding:8px 12px; border-radius:4px; font-weight:600;"></div>
+      <input type="text" id="recoverInput" placeholder="Registered ID / Mobile / Email" style="padding-left:12px;">
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button type="button" id="closeModalBtn" style="padding:8px 14px; font-size:12px; font-weight:700; border:1px solid var(--border-color); background:transparent; border-radius:4px; cursor:pointer; color:var(--text-main);">Cancel</button>
+        <button type="button" id="sendRecoverBtn" style="padding:8px 16px; font-size:12px; font-weight:700; background:var(--gov-navy); color:white; border:none; border-radius:4px; cursor:pointer;">Send Reset Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Official Footer with Copyright Text -->
+  <footer class="gov-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-top-inner">
+        <div><strong>National Scheme Portal</strong> • Government of India</div>
+        <div style="display:flex; gap:16px;">
+          <span>🔒 STQC 256-Bit SSL Encrypted</span>
+          <span>📞 Helpline: 1800-11-0001</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-main-links">
+      <div>
+        <p style="max-width: 400px; font-size: 11px; line-height: 1.6;">
+          National Scheme Portal is a single window digital platform providing citizens access to government welfare schemes and Direct Benefit Transfers (DBT).
+        </p>
+      </div>
+      <ul class="footer-links-list">
+        <li><a href="login.html">Beneficiary Login</a></li>
+        <li><a href="register.html">New Registration</a></li>
+        <li><a href="https://india.gov.in" target="_blank" rel="noopener">india.gov.in</a></li>
+        <li><a href="https://mygov.in" target="_blank" rel="noopener">MyGov.in</a></li>
+        <li><a href="https://uidai.gov.in" target="_blank" rel="noopener">UIDAI</a></li>
+      </ul>
+    </div>
+    <div class="copyright-bar">
+      © <span id="currentYear"></span> National Scheme Portal. All Rights Reserved. Government of India.
+    </div>
+  </footer>
+
+  <!-- Pure Client-Side JavaScript Logic -->
+  <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const usernameError = document.getElementById('usernameError');
+    const passwordError = document.getElementById('passwordError');
+    const successBanner = document.getElementById('successBanner');
+    const successMessageText = document.getElementById('successMessageText');
+    const togglePassword = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    // Password show/hide toggle
+    togglePassword.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      eyeIcon.innerHTML = isPassword 
+        ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>'
+        : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+    });
+
+    // Clear errors on typing
+    usernameInput.addEventListener('input', () => {
+      usernameInput.classList.remove('error-input');
+      usernameError.classList.remove('visible');
+    });
+    passwordInput.addEventListener('input', () => {
+      passwordInput.classList.remove('error-input');
+      passwordError.classList.remove('visible');
+    });
+
+    // Client-side form validation
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      successBanner.style.display = 'none';
+
+      let isValid = true;
+      const usernameVal = usernameInput.value.trim();
+      const passwordVal = passwordInput.value.trim();
+
+      if (!usernameVal) {
+        usernameInput.classList.add('error-input');
+        usernameError.classList.add('visible');
+        isValid = false;
+      } else {
+        usernameInput.classList.remove('error-input');
+        usernameError.classList.remove('visible');
+      }
+
+      if (!passwordVal) {
+        passwordInput.classList.add('error-input');
+        passwordError.classList.add('visible');
+        isValid = false;
+      } else {
+        passwordInput.classList.remove('error-input');
+        passwordError.classList.remove('visible');
+      }
+
+      if (isValid) {
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<span>Authenticating...</span>';
+
+        setTimeout(() => {
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg><span>Login</span>';
+          
+          successMessageText.textContent = `Welcome, ${usernameVal}! Login successful. (Client-side validation passed, ready for API integration)`;
+          successBanner.style.display = 'flex';
+          successBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 600);
+      }
+    });
+
+    // Forgot password modal handlers
+    const forgotModal = document.getElementById('forgotModal');
+    const forgotTrigger = document.getElementById('forgotPasswordTrigger');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const sendRecoverBtn = document.getElementById('sendRecoverBtn');
+    const recoverInput = document.getElementById('recoverInput');
+    const modalAlert = document.getElementById('modalAlert');
+
+    forgotTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      forgotModal.classList.add('active');
+      recoverInput.value = '';
+      modalAlert.style.display = 'none';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      forgotModal.classList.remove('active');
+    });
+
+    sendRecoverBtn.addEventListener('click', () => {
+      const val = recoverInput.value.trim();
+      if (!val) {
+        modalAlert.style.display = 'block';
+        modalAlert.style.backgroundColor = '#fee2e2';
+        modalAlert.style.color = '#991b1b';
+        modalAlert.textContent = 'Please enter your Registered ID, Email, or Mobile';
+        return;
+      }
+      modalAlert.style.display = 'block';
+      modalAlert.style.backgroundColor = '#ecfdf5';
+      modalAlert.style.color = '#065f46';
+      modalAlert.textContent = `Password reset link dispatched to ${val}`;
+      setTimeout(() => {
+        forgotModal.classList.remove('active');
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
